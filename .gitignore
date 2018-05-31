@@ -6,3 +6,4 @@ data/db.sqlite3
 softwarecollections-*.tar.gz
 packaging-guide
 *.swp
+*.egg-info
