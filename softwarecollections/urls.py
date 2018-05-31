@@ -18,15 +18,10 @@ from django.conf.urls import include, url
 from django.conf.urls.i18n import i18n_patterns
 from django.views.generic.base import RedirectView
 from django.views.static import serve
-from django.contrib import admin
 
-admin.autodiscover()
-
-from softwarecollections import scls
 from softwarecollections.pages.views import page
 
 urlpatterns = i18n_patterns(
-    url(r"^admin/", include(admin.site.urls)),
     url(r"^captcha/", include("captcha.urls")),
     url(r"^faq/$", RedirectView.as_view(url="/en/docs/faq/", permanent=True)),
     url(r"^scls/", include("softwarecollections.scls.urls", namespace="scls")),

@@ -2,6 +2,8 @@ from django.conf.urls import url
 
 from . import views
 
+app_name = "scls"  # URL namespacing
+
 urlpatterns = [
     url(r"^$", views.list_all, name="list_all"),
     url(r"^user/$", views.list_my, name="list_my"),
