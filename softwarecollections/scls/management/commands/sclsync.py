@@ -19,22 +19,22 @@ def sync(args):
     exit_code = 0
 
     # scl.sync()
-    logger.info('Syncing {}'.format(scl.slug))
+    logger.info("Syncing {}".format(scl.slug))
     try:
         scl.sync(timeout)
         if not scl.auto_sync:
             scl.need_sync = False
             scl.save()
     except Exception as e:
-        logger.error('Failed to sync {}: {}'.format(scl.slug, e))
+        logger.error("Failed to sync {}: {}".format(scl.slug, e))
         exit_code += 1
 
     # scl.dump_provides()
-    logger.info('Dumping provides for {}'.format(scl.slug))
+    logger.info("Dumping provides for {}".format(scl.slug))
     try:
         scl.dump_provides(timeout)
     except Exception as e:
-        logger.error('Failed to dump provides for {}: {}'.format(scl.slug, e))
+        logger.error("Failed to dump provides for {}: {}".format(scl.slug, e))
         exit_code += 1
 
     return exit_code
@@ -43,25 +43,38 @@ def sync(args):
 class Command(LoggingBaseCommand):
     option_list = LoggingBaseCommand.option_list + (
         make_option(
-            '-A', '--all', action='store_true', dest='all', default=False,
-            help='Sync all collections, regardless the need_sync flag.',
+            "-A",
+            "--all",
+            action="store_true",
+            dest="all",
+            default=False,
+            help="Sync all collections, regardless the need_sync flag.",
         ),
         make_option(
-            '-P', '--max-procs', action='store', dest='max_procs', default=cpu_count(),
-            help='Run up to MAX_PROCS processes at a time (default {})'.format(cpu_count())
+            "-P",
+            "--max-procs",
+            action="store",
+            dest="max_procs",
+            default=cpu_count(),
+            help="Run up to MAX_PROCS processes at a time (default {})".format(
+                cpu_count()
+            ),
         ),
         make_option(
-            '-t', '--timeout', action='store', dest='timeout', default=None,
-            help='Timeout in seconds for each step of sync (reposync, rpmbuild, createrepo, dump_provides)',
+            "-t",
+            "--timeout",
+            action="store",
+            dest="timeout",
+            default=None,
+            help="Timeout in seconds for each step of sync (reposync, rpmbuild, createrepo, dump_provides)",
         ),
     )
 
-    args = '[ <scl_slug> ... ]'
-    help = 'Sync all SCLs (marked with need_sync flag) with Copr repos. '\
-           'Optionaly you may specify one or more slug of particular SCLs to be synced.'
+    args = "[ <scl_slug> ... ]"
+    help = "Sync all SCLs (marked with need_sync flag) with Copr repos. " "Optionaly you may specify one or more slug of particular SCLs to be synced."
 
     def handle(self, *args, **options):
-        self.configure_logging(options['verbosity'])
+        self.configure_logging(options["verbosity"])
         errors = 0
         if args:
             scls = []
@@ -71,16 +84,12 @@ class Command(LoggingBaseCommand):
                 except Exception as e:
                     logger.error(str(e))
                     errors += 1
-        elif options['all']:
+        elif options["all"]:
             scls = SoftwareCollection.objects.all()
         else:
             scls = SoftwareCollection.objects.filter(need_sync=True)
-        timeout = options['timeout'] and int(options['timeout'])
-        with Pool(processes=int(options['max_procs'])) as pool:
-            errors += sum(pool.map(
-                sync,
-                [(scl, timeout) for scl in scls],
-            ))
+        timeout = options["timeout"] and int(options["timeout"])
+        with Pool(processes=int(options["max_procs"])) as pool:
+            errors += sum(pool.map(sync, [(scl, timeout) for scl in scls]))
             if errors > 0:
-                raise CommandError('Failed to sync SCLs: {} error(s)'.format(errors))
-
+                raise CommandError("Failed to sync SCLs: {} error(s)".format(errors))

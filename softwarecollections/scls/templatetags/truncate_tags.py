@@ -11,24 +11,24 @@ class TruncateNode(template.base.Node):
 
     def __init__(self, value, num, mode, stop):
         self.value = value
-        self.num   = num
-        self.mode  = mode
-        self.stop  = stop
+        self.num = num
+        self.mode = mode
+        self.stop = stop
 
     def __repr__(self):
         return "<TruncateNode>"
 
     def render(self, context):
         value = self.value.render(context)
-        num   = int(self.num.resolve(context))
+        num = int(self.num.resolve(context))
         if self.stop is not None:
             stop = self.stop.render(context)
         else:
             stop = None
 
-        if self.mode == 'chars':
+        if self.mode == "chars":
             return Truncator(value).chars(num, truncate=stop)
-        elif self.mode == 'words':
+        elif self.mode == "words":
             return Truncator(value).words(num, truncate=stop)
         else:
             return Truncator(value).words(num, truncate=stop, html=True)
@@ -63,23 +63,24 @@ def truncate(parser, token):
     try:
         tag_name, num, mode = token.split_contents()
     except ValueError:
-        raise template.TemplateSyntaxError('truncate tag requires two arguments')
+        raise template.TemplateSyntaxError("truncate tag requires two arguments")
     num = template.Variable(num)
-    if mode not in ['chars', 'words', 'words_html']:
-        raise template.TemplateSyntaxError('truncate mode must be one of chars, words or words_html')
+    if mode not in ["chars", "words", "words_html"]:
+        raise template.TemplateSyntaxError(
+            "truncate mode must be one of chars, words or words_html"
+        )
 
-    value = parser.parse(('truncatestop', 'endtruncate'))
+    value = parser.parse(("truncatestop", "endtruncate"))
     token = parser.next_token()
 
     # {% truncatestop %} (optional)
-    if token.contents == 'truncatestop':
-        stop = parser.parse(('endtruncate',))
+    if token.contents == "truncatestop":
+        stop = parser.parse(("endtruncate",))
         token = parser.next_token()
     else:
         stop = None
 
     # {% endtruncate %}
-    assert token.contents == 'endtruncate'
+    assert token.contents == "endtruncate"
 
     return TruncateNode(value, num, mode, stop)
-

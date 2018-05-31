@@ -1,5 +1,6 @@
 from django.contrib.auth.backends import ModelBackend
 
+
 class PerObjectModelBackend(ModelBackend):
     """
     Authentication backend handling per object permissions
@@ -11,5 +12,4 @@ class PerObjectModelBackend(ModelBackend):
         if obj is None:
             return perm in self.get_all_permissions(user)
         else:
-            return hasattr(obj, 'has_perm') and obj.has_perm(user, perm)
-
+            return hasattr(obj, "has_perm") and obj.has_perm(user, perm)

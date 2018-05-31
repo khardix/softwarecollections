@@ -7,16 +7,17 @@ from django.db import DEFAULT_DB_ALIAS
 
 
 class Command(BaseCommand):
+
     def add_arguments(self, parser):
         parser.add_argument(
-            '--database',
-            action='store',
-            dest='database',
+            "--database",
+            action="store",
+            dest="database",
             default=DEFAULT_DB_ALIAS,
             help='Specifies the database to use. Default is "default".',
         )
-        parser.add_argument('username', nargs='?')
-        parser.help = 'Used to make user a superuser.'
+        parser.add_argument("username", nargs="?")
+        parser.help = "Used to make user a superuser."
 
     requires_system_checks = False
 
@@ -32,14 +33,14 @@ class Command(BaseCommand):
         UserModel = get_user_model()
 
         try:
-            u = UserModel._default_manager.using(options.get('database')).get(**{
-                    UserModel.USERNAME_FIELD: username
-                })
+            u = UserModel._default_manager.using(options.get("database")).get(
+                **{UserModel.USERNAME_FIELD: username}
+            )
         except UserModel.DoesNotExist:
             raise CommandError("user '%s' does not exist" % username)
 
         self.stdout.write("Making user '%s' a superuser\n" % u)
-        u.is_staff     = True
+        u.is_staff = True
         u.is_superuser = True
         u.save()
 

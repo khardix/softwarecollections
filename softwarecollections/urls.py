@@ -19,22 +19,31 @@ from django.conf.urls.i18n import i18n_patterns
 from django.views.generic.base import RedirectView
 from django.views.static import serve
 from django.contrib import admin
+
 admin.autodiscover()
 
 from softwarecollections import scls
 from softwarecollections.pages.views import page
 
 urlpatterns = i18n_patterns(
-    url(r'^admin/',     include(admin.site.urls)),
-    url(r'^captcha/',   include('captcha.urls')),
-    url(r'^faq/$',      RedirectView.as_view(url='/en/docs/faq/', permanent=True)),
-    url(r'^scls/',      include('softwarecollections.scls.urls', namespace='scls')),
-    url('',             include('fas.urls')),
-    url(r'^((?P<path>.*)/|)$', page, name='page', kwargs={'template_dir':'pages'}),
+    url(r"^admin/", include(admin.site.urls)),
+    url(r"^captcha/", include("captcha.urls")),
+    url(r"^faq/$", RedirectView.as_view(url="/en/docs/faq/", permanent=True)),
+    url(r"^scls/", include("softwarecollections.scls.urls", namespace="scls")),
+    url("", include("fas.urls")),
+    url(r"^((?P<path>.*)/|)$", page, name="page", kwargs={"template_dir": "pages"}),
 )
 
 if settings.DEBUG:
     urlpatterns += [
-        url(r'^repos/(?P<path>.*)$', serve, {'document_root': settings.REPOS_ROOT, 'show_indexes': True}),
-        url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
+        url(
+            r"^repos/(?P<path>.*)$",
+            serve,
+            {"document_root": settings.REPOS_ROOT, "show_indexes": True},
+        ),
+        url(
+            r"^media/(?P<path>.*)$",
+            serve,
+            {"document_root": settings.MEDIA_ROOT, "show_indexes": True},
+        ),
     ]

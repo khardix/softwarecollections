@@ -3,8 +3,9 @@ from django.core.management.base import BaseCommand, CommandError
 from django.template.loader import render_to_string
 from os.path import join
 
+
 class Command(BaseCommand):
-    help = 'Used to make error pages.'
+    help = "Used to make error pages."
 
     requires_system_checks = False
 
@@ -12,11 +13,10 @@ class Command(BaseCommand):
 
         failed = 0
 
-        for error_page in '400.html', '403.html', '404.html', '500.html':
+        for error_page in "400.html", "403.html", "404.html", "500.html":
             try:
                 content = render_to_string(error_page, {})
-                with open(join(settings.MEDIA_ROOT, error_page), 'w') as out:
+                with open(join(settings.MEDIA_ROOT, error_page), "w") as out:
                     out.write(content)
             except:
                 raise CommandError("user '%s' does not exist" % username)
-
