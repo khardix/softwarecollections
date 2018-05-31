@@ -68,7 +68,12 @@ class Migration(migrations.Migration):
                     "has_content",
                     models.BooleanField(verbose_name="Has content", default=False),
                 ),
-                ("copr", models.ForeignKey(related_name="repos", to="scls.Copr")),
+                (
+                    "copr",
+                    models.ForeignKey(
+                        related_name="repos", to="scls.Copr", on_delete=models.CASCADE
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
@@ -238,6 +243,7 @@ class Migration(migrations.Migration):
                         verbose_name="Maintainer",
                         related_name="maintained_softwarecollection_set",
                         to=settings.AUTH_USER_MODEL,
+                        on_delete=models.CASCADE,
                     ),
                 ),
                 (
@@ -254,18 +260,26 @@ class Migration(migrations.Migration):
             model_name="score",
             name="scl",
             field=models.ForeignKey(
-                related_name="scores", to="scls.SoftwareCollection"
+                related_name="scores",
+                to="scls.SoftwareCollection",
+                on_delete=models.CASCADE,
             ),
         ),
         migrations.AddField(
             model_name="score",
             name="user",
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+            ),
         ),
         migrations.AddField(
             model_name="repo",
             name="scl",
-            field=models.ForeignKey(related_name="repos", to="scls.SoftwareCollection"),
+            field=models.ForeignKey(
+                related_name="repos",
+                to="scls.SoftwareCollection",
+                on_delete=models.CASCADE,
+            ),
         ),
         migrations.AlterUniqueTogether(
             name="copr", unique_together=set([("username", "name")])
