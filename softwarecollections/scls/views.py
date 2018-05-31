@@ -1,13 +1,12 @@
 import json
 from django.contrib import messages
-from django.contrib.auth import get_user_model, REDIRECT_FIELD_NAME
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.core.mail import mail_managers
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.core.urlresolvers import reverse
-from django.db.models import Q, Manager
+from django.urls import reverse
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
@@ -16,7 +15,6 @@ from django.views.decorators.http import require_POST
 from django.views.generic import CreateView, DetailView, UpdateView
 from softwarecollections.copr import CoprProxy
 from tagging.models import Tag
-from urllib.parse import urlsplit, urlunsplit
 from libravatar import libravatar_url
 
 from .forms import (
@@ -108,7 +106,7 @@ def list_user(request, username, **kwargs):
 def list_tag(request, name, **kwargs):
     try:
         tag = Tag.objects.get(name=name)
-    except:
+    except ObjectDoesNotExist:
         tag = Tag()
         tag.name = name
     queryset = SoftwareCollection.tagged.with_all(tag).filter(has_content=True)
@@ -158,7 +156,7 @@ class New(CreateView):
             )[
                 0
             ].username
-        except:
+        except (ObjectDoesNotExist, IndexError):
             initial["copr_username"] = initial["maintainer"].get_username()
         return initial
 
