@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 # import ugettext_lazy to avoid circular module import
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _  # noqa: F401
 
 # localsettings is used to store site depandant settings
-from .localsettings import (
+from .localsettings import (  # noqa: F401
     BASE_DIR,
     SECRET_KEY,
     DEBUG,
@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     "captcha",
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
