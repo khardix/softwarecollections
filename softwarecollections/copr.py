@@ -29,7 +29,7 @@ class CoprProxy:
             data = self._get("/coprs/{}/".format(username))
             return [copr["name"] for copr in data["repos"]]
         except Exception as e:
-            raise CoprException("Failed to get copr names: {}".format(e))
+            raise CoprException("Failed to get copr names: {}".format(e)) from e
 
     def coprdetail(self, username, coprname):
         """ return copr details """
@@ -38,4 +38,4 @@ class CoprProxy:
             data["detail"]["username"] = username
             return data["detail"]
         except Exception as e:
-            raise CoprException("Failed to get copr detail: {}".format(e))
+            raise CoprException("Failed to get copr detail: {}".format(e)) from e

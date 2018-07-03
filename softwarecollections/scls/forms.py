@@ -1,10 +1,11 @@
 from captcha.fields import CaptchaField
 from django import forms
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import get_user_model
 from django.forms.forms import pretty_name
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
-from softwarecollections.copr import CoprProxy
+from softwarecollections.copr import CoprProxy, CoprException
 from tagging.forms import TagField
 
 from .models import (
@@ -70,20 +71,21 @@ class _CoprForm(forms.ModelForm):
 
     def __init__(self, **kwargs):
         super(_CoprForm, self).__init__(**kwargs)
-        try:
-            copr_username = kwargs["data"]["copr_username"]
-        except:
-            try:
-                copr_username = kwargs["initial"]["copr_username"]
-            except:
-                copr_username = ""
+
+        copr_username_candidate = [
+            kwargs.get("data", {}).get("copr_username", None),
+            kwargs.get("initial", {}).get("copr_username", None),
+        ]
+        copr_username = next(filter(None, copr_username_candidate), "")
+
         if copr_username:
             try:
                 self.coprnames = CoprProxy().coprnames(copr_username)
-            except:
+            except CoprException:
                 self.coprnames = []
         else:
             self.coprnames = []
+
         self.fields["copr_name"].choices = tuple(
             (name, name) for name in sorted(self.coprnames)
         )
@@ -243,7 +245,7 @@ class CollaboratorsForm(forms.ModelForm):
                 self.cleaned_data["collaborators"].append(
                     get_user_model().objects.get(username=add)
                 )
-            except:
+            except ObjectDoesNotExist:
                 self.errors["add"] = [_("Unknown user")]
         self.cleaned_data["collaborators"].append(self.instance.maintainer)
         return self.cleaned_data
