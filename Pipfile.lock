@@ -53,9 +53,9 @@
         },
         "django-fas": {
             "hashes": [
-                "sha256:09cc0bd467d36d3bd4b753a4bcfb39f5bf5bf2d6249ca7162e6110075f4320e5"
+                "sha256:930969cc2d09f4ca18e7e9a8a581ef22b80f48954d83377e0d21259798215275"
             ],
-            "version": "==1.1.0"
+            "version": "==1.1.1"
         },
         "django-markdown2": {
             "hashes": [
