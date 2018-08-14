@@ -24,7 +24,7 @@ REQUIREMENTS = [
     "django-sekizai",
     "django-simple-captcha",
     "django-tagging",
-    "django~=1.11.0",
+    "django~=2.0",
     "flock",
     "py3dns",  # pylibravatar missing dependency workaround
     "pylibravatar",
