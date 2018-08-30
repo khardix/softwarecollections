@@ -6,7 +6,7 @@ For development purposes, a Dockerfile is included. To build a Docker container,
 - make sure you're in the top level directory (the one that contains Dockerfile)
 - cd into this directory and build the image as `sclorgweb` (this will take some time):
 
-    docker build -t sclorgweb .
+    docker build -f Dockerfile.devel -t sclorgweb .
 
 - after build is finished, run the resulting image:
 
