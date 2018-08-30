@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "80575a0d6adc08691863463a446d206902ee0043d93132c312c9f752182d2b51"
+            "sha256": "b38ff680bae4acfc05b48a45605f13af5d05448eb6023dbea8c678acbc7bf14b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -18,10 +18,10 @@
     "default": {
         "certifi": {
             "hashes": [
-                "sha256:13e698f54293db9f89122b0581843a782ad0934a4fe0172d2a980ba77fc61bb7",
-                "sha256:9fa520c1bacfb634fa7af20a76bcbd3d5fb390481724c597da32c719a7dca4b0"
+                "sha256:4c1d68a1408dd090d2f3a869aa94c3947cc1d967821d1ed303208c9f41f0f2f4",
+                "sha256:b6e8b28b2b7e771a41ecdd12d4d43262ecab52adebbafa42c77d6b57fb6ad3a4"
             ],
-            "version": "==2018.4.16"
+            "version": "==2018.8.13"
         },
         "chardet": {
             "hashes": [
@@ -37,12 +37,20 @@
             ],
             "version": "==0.5.0"
         },
+        "dj-database-url": {
+            "hashes": [
+                "sha256:4aeaeb1f573c74835b0686a2b46b85990571159ffc21aa57ecd4d1e1cb334163",
+                "sha256:851785365761ebe4994a921b433062309eb882fedd318e1b0fcecc607ed02da9"
+            ],
+            "index": "pypi",
+            "version": "==0.5.0"
+        },
         "django": {
             "hashes": [
-                "sha256:97886b8a13bbc33bfeba2ff133035d3eca014e2309dff2b6da0bdfc0b8656613",
-                "sha256:e900b73beee8977c7b887d90c6c57d68af10066b9dac898e1eaf0f82313de334"
+                "sha256:7f246078d5a546f63c28fc03ce71f4d7a23677ce42109219c24c9ffb28416137",
+                "sha256:ea50d85709708621d956187c6b61d9f9ce155007b496dd914fdb35db8d790aec"
             ],
-            "version": "==2.0.7"
+            "version": "==2.1"
         },
         "django-classy-tags": {
             "hashes": [
@@ -150,9 +158,9 @@
         },
         "py3dns": {
             "hashes": [
-                "sha256:124d7833fd0a6fbaebe17d093b028cfa77b155b5feab8e1c6265959a4b9e7fb7"
+                "sha256:8e88c0648c4d38a880f08aeb05a6e5cb48b8ce2602d381caafc6c71698ee3c21"
             ],
-            "version": "==3.1.0"
+            "version": "==3.2.0"
         },
         "pylibravatar": {
             "hashes": [
