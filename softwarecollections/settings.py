@@ -20,12 +20,13 @@ from django.utils.translation import ugettext_lazy as _  # noqa: F401
 # Environment-dependent settings; defaults are suitable for development, unsuitable for production!
 
 BASE_DIR = os.getenv(
-    "DJANGO_BASE_DIR", default=os.path.dirname(os.path.dirname(__file__))
+    "SOFTWARECOLLECTIONS_BASE_DIR", default=os.path.dirname(os.path.dirname(__file__))
 )
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv(
-    "DJANGO_SECRET_KEY", default="m0zn_p7x*o(xvk^9p8_$6n7o)dn$bh-*_*xu*b!mg9$ihh0xu+"
+    "SOFTWARECOLLECTIONS_SECRET_KEY",
+    default="m0zn_p7x*o(xvk^9p8_$6n7o)dn$bh-*_*xu*b!mg9$ihh0xu+",
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -34,7 +35,7 @@ DBDEBUG = os.getenv("DEBUG", default="") == "DB"
 
 DATABASES = {
     "default": dj_database_url.config(
-        env="DJANGO_DATABASE_URL",
+        env="SOFTWARECOLLECTIONS_DATABASE_URL",
         default="sqlite:///{path}".format(
             path=os.path.abspath(os.path.join(BASE_DIR, "data", "db.sqlite3"))
         ),
