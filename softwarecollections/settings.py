@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.getenv("DEBUG", default="True"))
-DBDEBUG = os.getenv("DEBUG", "") == "DB"
+DBDEBUG = os.getenv("DEBUG", default="") == "DB"
 
 DATABASES = {
     "default": dj_database_url.config(
@@ -43,9 +43,7 @@ DATABASES = {
 
 # Application definition
 
-ALLOWED_HOSTS = ["www.softwarecollections.org"]
-if DEBUG:
-    ALLOWED_HOSTS += ["localhost", "127.0.0.1", "[::1]"]
+ALLOWED_HOSTS = ["*"] if DEBUG else ["www.softwarecollections.org"]
 
 # Emails
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-ADMINS
@@ -213,7 +211,7 @@ PASSWORD_RESET_TIMEOUT_DAYS = 3
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
-        "LOCATION": "127.0.0.1:11211",
+        "LOCATION": os.getenv("MEMCACHE_LOCATION", default="127.0.0.1:11211"),
         "KEY_PREFIX": "softwarecollections",
     }
 }
